@@ -8,6 +8,7 @@ class Request():
 			self._raw_req = req.read()
 			self._req_lines = self._raw_req.split('\n')
 		self._req_startline = self.req_lines[0]
+		self._req_target = self._req_lines[1].split(": ")[1]
 		self._req_headerlines = self.req_lines[1:self.req_lines.index("")]
 		self._req_data = self.raw_req[self.raw_req.find("\n\n") + 2:].rstrip()
 		self._headers = {}
@@ -19,6 +20,10 @@ class Request():
 	@property
 	def raw_req(self):
 		return self._raw_req
+
+	@property
+	def url(self):
+		return "http://" + self._req_target
 
 	@property
 	def req_lines(self):
@@ -58,4 +63,4 @@ if __name__ == "__main__":
 	print(req.startline)
 	for h, v in req.headers.items():
 		print(f"{h}: {v}")
-	print(req.body)
+	print(req.url)
